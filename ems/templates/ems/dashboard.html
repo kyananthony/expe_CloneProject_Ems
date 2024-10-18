@@ -1,0 +1,13 @@
+<h1>Welcome, {{ employee.user.username }}</h1>
+<h2>Leave Balance</h2>
+<p>PTO: {{ leave_balance.pto_balance }} days</p>
+<p>Sick Leave: {{ leave_balance.sick_leave_balance }} days</p>
+
+<h2>Recent Attendance</h2>
+<ul>
+    {% for attendance in attendance_records %}
+    <li>{{ attendance.date }} - Present: {{ attendance.is_present }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'request_leave' %}">Request Leave</a>

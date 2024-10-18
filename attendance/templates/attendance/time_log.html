@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Log</title>
+</head>
+<body>
+    <h1>Your Time Log</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Hours Worked</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in time_logs %}
+            <tr>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out }}</td>
+                <td>{{ log.hours_worked }} hours</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No time logs available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'time_in' %}">Time In</a>
+    <a href="{% url 'time_out' %}">Time Out</a>
+</body>
+</html>
