@@ -1,19 +1,14 @@
-<form method="POST">
+<h1>Request Leave</h1>
+<form method="post">
     {% csrf_token %}
     <label for="leave_type">Leave Type:</label>
-    <select name="leave_type" id="leave_type">
-        <option value="PTO">PTO</option>
-        <option value="SICK">Sick Leave</option>
-    </select>
+    <input type="text" id="leave_type" name="leave_type" required>
 
     <label for="start_date">Start Date:</label>
-    <input type="date" name="start_date" required>
+    <input type="date" id="start_date" name="start_date" required>
 
     <label for="end_date">End Date:</label>
-    <input type="date" name="end_date" required>
+    <input type="date" id="end_date" name="end_date" required>
 
-    <label for="reason">Reason:</label>
-    <textarea name="reason" required></textarea>
-
-    <button type="submit">Submit</button>
+    <button type="submit">Submit Leave Request</button>
 </form>

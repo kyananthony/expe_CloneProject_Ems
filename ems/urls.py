@@ -1,7 +1,7 @@
 from django.urls import path
-from .import views
+from .views import employee_view, request_leave
 
 urlpatterns = [
-    path('dashboard/',views.dashboard,name='dashboard'),
-    path('request-leave/',views.request_leave,name='request_leave'),
+    path('view/', employee_view, name='employee_view'),
+    path('request-leave/', request_leave, name='request_leave'),
 ]

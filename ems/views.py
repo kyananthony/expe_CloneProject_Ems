@@ -1,33 +1,21 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Employee, LeaveRequest, Attendance, LeaveBalance
+from django.shortcuts import render
+from .models import Employee, LeaveRequest
 
-def dashboard(request):
+
+def employee_view(request):
     employee = Employee.objects.get(user=request.user)
-    leave_balance = LeaveBalance.objects.get(employee=employee)
-    attendance_records = Attendance.objects.filter(employee=employee).order_by('date')[:30]
+    leave_requests = LeaveRequest.objects.filter(employee=employee)
+
     context = {
         'employee': employee,
-        'leave_balance': leave_balance,
-        'attendance_records': attendance_records,
+        'leave_requests': leave_requests,
     }
-    return render(request, 'ems/dashboard.html', {'employee':employee})
-def request_leave(request, Leave=None):
-    if request.method == 'POST':
-        leave_type = request.POST['leave_type']
-        start_date = request.POST['start_date']
-        end_date = request.POST['end_date']
-        reason = request.POST['reason']
+    return render(request, 'ems/employee_view.html', context)
 
-        employee = Employee.objects.get(user=request.user)
-        leave_request = Leave.Request.objects.create(
-            employee=employee,
-            leave_type=leave_type,
-            start_date=start_date,
-            end_date=end_date,
-            reason=reason,
-        )
-        return render(request,'ems/request_leave.html')
-# Create your views here.
-def register(request):
-    return None
+
+def request_leave(request):
+    if request.method == 'POST':
+        # Handle leave request form submission
+        # (Add form handling logic here)
+        pass
+    return render(request, 'ems/request_leave.html')

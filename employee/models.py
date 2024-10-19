@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
+from django.utils import timezone
 
 
 class Employee(models.Model):
@@ -24,27 +26,25 @@ class Employee(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-class users(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee')
-    department = models.CharField(max_length=100)
-    hire_date = models.DateField()
+class Leave(models.Model):
+    LEAVE_TYPE_CHOICES = [
+        ('PTO', 'Paid Time Off'),
+        ('SICK', 'Sick Leave'),
+    ]
+
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='leaves', null= True)
+    leave_type = models.CharField(max_length=10, choices=LEAVE_TYPE_CHOICES)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.user.get_full_name()
+        return f"{self.leave_type} Leave for {self.employee} from {self.start_date} to {self.end_date}"
 
-    class Leave(models.Model):
-        LEAVE_TYPE_CHOICES = [
-            ('PTO', 'Paid Time Off'),
-            ('SICK', 'Sick Leave'),
 
-        ]
+class Attendance(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='attendance_records')
+    date = models.DateField()
+    is_present = models.BooleanField(default=True)
 
-    class Attendance(models.Model):
-        employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-        date = models.DateField()
-        is_present = models.BooleanField(default=True)
-
-        def __str__(self):
-            return f"{self.employee} {self.date}-{'Present' if self.is_present else 'Absent'}"
-
-# Create your models here.
+    def __str__(self):
+        return f"{self.employee} - {self.date} - {'Present' if self.is_present else 'Absent'}"
